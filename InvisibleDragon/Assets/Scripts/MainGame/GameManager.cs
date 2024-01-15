@@ -5,47 +5,41 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public List<Tuple<Int32, Int32>> testPerBeat = new List<Tuple<Int32, Int32>>();
-    public List<String> testTouchBeat = new List<String>();
-    public AudioSource audioSource;
-    public AudioClip Tic, Tac;
 
     private BeatCalculator test;
+    private PatternFileParser parser = new PatternFileParser();
+
+    public GameObject metro;
 
     private void Start()
     {
-        for(Int32 i = 0; i < 10; i++)
-        {
-            testPerBeat.Add(new Tuple<Int32, Int32>(7, 8));
-        }
-
-        audioSource = GetComponent<AudioSource>();
+        StagePattern TesterPattern;
+        TesterPattern = parser.FindPatternFile("Test");
+        Debug.Log($"Parsed File {TesterPattern.stageNum}, {TesterPattern.stageName}");
 
         SongInfo TesterSong = new SongInfo()
         {
             fileName = "",
-            BPM = 180,
+            BPM = 90,
             offset = 0
-        };
-        
-        StagePattern TesterPattern = new StagePattern()
-        {
-            stageNum = 0,
-            stageName = "TestStage",
-            perBeat = testPerBeat,
-            touchBeat = testTouchBeat
         };
 
         test = new BeatCalculator(TesterPattern, TesterSong);
 
-        test.PreBeat += OutputTicToc;
-        test.MainBeat += OutputTicToc;
+        test.PreBeat += PreTicToc;
+        test.MainBeat += MainTicToc;
     }
 
-    private void OutputTicToc(TicTac i)
+    private void PreTicToc()
     {
-        if (i == TicTac.Tic) audioSource.clip = Tic;
-        else audioSource.clip = Tac;
-        audioSource.Play();
+        SoundManager.Ins.PrintSFX("Toc");
+        metro.transform.Rotate(new Vector3(0, 0, 30));
+    }
+
+    private void MainTicToc()
+    {
+        SoundManager.Ins.PrintSFX("Toc");
+        metro.transform.Rotate(new Vector3(0, 0, 30));
     }
 
     [InspectorButton("Run Game")]

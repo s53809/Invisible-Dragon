@@ -68,10 +68,4 @@ public class ObjectPool : MonoBehaviour
 
         m_Pool[name].Enqueue(obj);
     }
-
-    [InspectorButton("Push Object")]
-    private void TEST()
-    {
-        SpawnObject("Square");
-    }
 }
