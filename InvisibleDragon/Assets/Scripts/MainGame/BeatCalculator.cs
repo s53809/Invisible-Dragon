@@ -1,13 +1,8 @@
 ﻿using System;
 using UnityEngine;
 
-public enum TicTac
-{
-    Tic = 0,
-    Tac = 1,
-}
 
-public delegate void BeatEventHandler(TicTac tic);
+public delegate void BeatEventHandler();
 
 public class BeatCalculator
 {
@@ -24,8 +19,6 @@ public class BeatCalculator
     private Int32 m_curIndex = 0;
     private Int32 m_beatCount = 0;
     private Boolean m_isMainBeat = false;
-
-    private Boolean m_canTick = false;
 
     public BeatCalculator() => InitialSetting(new StagePattern(), new SongInfo());
     public BeatCalculator(StagePattern inputedPattern, SongInfo inputedSong) 
@@ -50,7 +43,8 @@ public class BeatCalculator
 
     private void CalculateDelayTime()
     {
-        m_delayTime = (60 / m_inputedSong.BPM) / (m_inputedPattern.perBeat[m_curIndex].Item2 / 4);
+        m_delayTime = (60 / m_inputedSong.BPM) 
+            / (m_inputedPattern.perBeat[m_curIndex].Item2 / 4);
     }
 
     private void UnPlayingUpdate()
@@ -63,26 +57,23 @@ public class BeatCalculator
         
     }
 
-    private void DropBeat(TicTac i)
+    private void DropBeat()
     {
-        if (!m_canTick) return;
-        if (m_isMainBeat) MainBeat(i);
-        else PreBeat(i);
+        if (m_isMainBeat) MainBeat();
+        else PreBeat();
     }
     private void PlayingUpdate()
     {
         if (AudioSettings.dspTime >= m_lastTickTime + m_delayTime)
         {
-            CalculateDelayTime();
             m_lastTickTime = m_lastTickTime + m_delayTime;
-            Debug.Log(m_inputedPattern.touchBeat[m_curIndex]);
-            if (m_inputedPattern.touchBeat[m_curIndex][m_beatCount] == '1') m_canTick = true;
-            else m_canTick = false;
+            if (m_inputedPattern.touchBeat[m_curIndex][m_beatCount] == '1') DropBeat();
+            CalculateDelayTime();
             m_beatCount++;
-
+            
             if (m_beatCount >= m_inputedPattern.perBeat[m_curIndex].Item1)
             {
-                DropBeat(TicTac.Tac);
+                Debug.Log("line cut");
                 if (m_isMainBeat)
                 {
                     if (m_curIndex + 1 < m_inputedPattern.perBeat.Count) m_curIndex++;
@@ -91,7 +82,6 @@ public class BeatCalculator
                 m_isMainBeat = !m_isMainBeat;
                 m_beatCount = 0;
             }
-            else DropBeat(TicTac.Tic);
         }
     } //#todo : TouchBeat String 만들기
 
