@@ -25,7 +25,6 @@ public class BeatCalculator
     private Int32 m_beatCount = 0;
     private Boolean m_isMainBeat = false;
 
-    private Int32 m_songBPMIndex = 0;
     private Boolean m_canTick = false;
 
     public BeatCalculator() => InitialSetting(new StagePattern(), new SongInfo());
@@ -39,7 +38,6 @@ public class BeatCalculator
         m_isPlaying = false;
         m_curIndex = 0;
         m_isMainBeat = false;
-        m_songBPMIndex = 0;
     }
 
     public void StartCalculate()
