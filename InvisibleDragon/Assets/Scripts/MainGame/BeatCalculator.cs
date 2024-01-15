@@ -26,6 +26,7 @@ public class BeatCalculator
     private Boolean m_isMainBeat = false;
 
     private Int32 m_songBPMIndex = 0;
+    private Boolean m_canTick = false;
 
     public BeatCalculator() => InitialSetting(new StagePattern(), new SongInfo());
     public BeatCalculator(StagePattern inputedPattern, SongInfo inputedSong) 
@@ -44,7 +45,8 @@ public class BeatCalculator
     public void StartCalculate()
     {
         m_startTime = AudioSettings.dspTime + m_inputedSong.offset;
-        m_lastTickTime = m_startTime;
+        CalculateDelayTime();
+        m_lastTickTime = m_startTime - m_delayTime;
         m_isPlaying = true;
     }
 
@@ -65,15 +67,19 @@ public class BeatCalculator
 
     private void DropBeat(TicTac i)
     {
+        if (!m_canTick) return;
         if (m_isMainBeat) MainBeat(i);
         else PreBeat(i);
     }
     private void PlayingUpdate()
     {
-        CalculateDelayTime();
         if (AudioSettings.dspTime >= m_lastTickTime + m_delayTime)
         {
+            CalculateDelayTime();
             m_lastTickTime = m_lastTickTime + m_delayTime;
+            Debug.Log(m_inputedPattern.touchBeat[m_curIndex]);
+            if (m_inputedPattern.touchBeat[m_curIndex][m_beatCount] == '1') m_canTick = true;
+            else m_canTick = false;
             m_beatCount++;
 
             if (m_beatCount >= m_inputedPattern.perBeat[m_curIndex].Item1)

@@ -169,7 +169,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testTouchBeat:
-  - 
+  - 1111111
+  - 1111011
+  - 1101101
+  - 1111111
+  - 1111111
+  - 0000101
+  - 1111111
+  - 1111011
+  - 1010101
+  - 1111001
   audioSource: {fileID: 0}
   Tic: {fileID: 8300000, guid: 64b831eb0ddbd02489bc4bf05d06400a, type: 3}
   Tac: {fileID: 8300000, guid: e1e258734065efd4d89f35210a0f92fe, type: 3}
