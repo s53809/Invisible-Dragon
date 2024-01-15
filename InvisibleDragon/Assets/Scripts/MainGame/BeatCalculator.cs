@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
 
-
 public delegate void BeatEventHandler();
 
 public class BeatCalculator
@@ -47,16 +46,6 @@ public class BeatCalculator
             / (m_inputedPattern.perBeat[m_curIndex].Item2 / 4);
     }
 
-    private void UnPlayingUpdate()
-    {
-
-    }
-
-    private void GameEnd()
-    {
-        
-    }
-
     private void DropBeat()
     {
         if (m_isMainBeat) MainBeat();
@@ -73,7 +62,6 @@ public class BeatCalculator
             
             if (m_beatCount >= m_inputedPattern.perBeat[m_curIndex].Item1)
             {
-                Debug.Log("line cut");
                 if (m_isMainBeat)
                 {
                     if (m_curIndex + 1 < m_inputedPattern.perBeat.Count) m_curIndex++;
@@ -90,5 +78,14 @@ public class BeatCalculator
         UnPlayingUpdate();
         if (!m_isPlaying) return;
         PlayingUpdate();
+    }
+    private void UnPlayingUpdate()
+    {
+
+    }
+
+    private void GameEnd()
+    {
+
     }
 }
