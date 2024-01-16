@@ -1543,7 +1543,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1165061901976641509, guid: 51732628fd047d04389611b18e2edc38, type: 3}
       propertyPath: SFX.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1165061901976641509, guid: 51732628fd047d04389611b18e2edc38, type: 3}
       propertyPath: BGM.Array.data[0]
@@ -1557,6 +1557,10 @@ PrefabInstance:
       propertyPath: SFX.Array.data[1]
       value: 
       objectReference: {fileID: 8300000, guid: 64b831eb0ddbd02489bc4bf05d06400a, type: 3}
+    - target: {fileID: 1165061901976641509, guid: 51732628fd047d04389611b18e2edc38, type: 3}
+      propertyPath: SFX.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 40003c643f62d8e42904851c44f4a294, type: 3}
     - target: {fileID: 3800709838100112251, guid: 51732628fd047d04389611b18e2edc38, type: 3}
       propertyPath: m_Name
       value: SoundManager

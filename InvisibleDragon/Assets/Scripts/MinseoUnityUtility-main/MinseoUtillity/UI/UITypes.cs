@@ -10,6 +10,6 @@ public static class UITypes
         typeof(UnityEngine.UI.Dropdown),
         typeof(UnityEngine.UI.InputField),
         typeof(UnityEngine.UI.ScrollRect),
-        typeof(UnityEngine.GameObject),
+        typeof(UnityEngine.RectTransform),
     };
 }
