@@ -15,14 +15,18 @@ public class SoundManager : MonoSingleton<SoundManager>
     private AudioSource audioSource;
     private ObjectPool objectPool;
 
-    private void Start()
+    protected override void Awake()
     {
+        base.Awake();
         if(!TryGetComponent(out audioSource))
         {
             transform.AddComponent<AudioSource>();
             audioSource = GetComponent<AudioSource>();
         }
         objectPool = GetComponent<ObjectPool>();
+
+        audioSource.loop = true;
+        audioSource.playOnAwake = false;
 
         foreach(var bgm in BGM)
             BGMDic.Add(bgm.name, bgm);

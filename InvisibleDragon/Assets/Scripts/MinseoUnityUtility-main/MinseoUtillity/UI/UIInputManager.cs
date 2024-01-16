@@ -22,7 +22,7 @@ public class UIInputManager : MonoSingleton<UIInputManager>
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && mPresenters.Count != 0)
         {
             if (mPresenters.Peek().HasViewOption(ViewOptions.isEscapeClosing))
                 PopPresenter();

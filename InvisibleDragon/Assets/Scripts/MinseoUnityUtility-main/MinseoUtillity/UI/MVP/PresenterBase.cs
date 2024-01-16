@@ -25,6 +25,7 @@ public abstract class PresenterBase<TView> : Presenter where TView : ViewBase
     {
         if (HasViewOption(ViewOptions.isStacking))
             UIInputManager.Ins.AddPresenter(this);
+        __view.OpenView();
     }
 
     public override void Hide()
