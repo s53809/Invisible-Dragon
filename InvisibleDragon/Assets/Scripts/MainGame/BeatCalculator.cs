@@ -10,6 +10,8 @@ public class BeatCalculator
     public event BeatEventHandler PreBeat;
     public event BeatEventHandler MainBeat;
 
+    public event BeatEventHandler BPMBeat;
+
     public event MissTimingHandler MissTiming;
 
     private StagePattern m_inputedPattern;
@@ -24,6 +26,8 @@ public class BeatCalculator
     
     public Boolean isPlaying = false;
     public Queue<Double> curBeat = new Queue<Double>();
+
+    private Double m_lastBPMTickTime;
 
     public BeatCalculator() => InitialSetting(new StagePattern(), new SongInfo());
     public BeatCalculator(StagePattern inputedPattern, SongInfo inputedSong) 
@@ -43,6 +47,7 @@ public class BeatCalculator
         m_startTime = AudioSettings.dspTime + m_inputedSong.offset;
         CalculateDelayTime();
         m_lastTickTime = m_startTime - m_delayTime;
+        m_lastBPMTickTime = m_startTime - m_delayTime;
         isPlaying = true;
     }
 
@@ -69,7 +74,8 @@ public class BeatCalculator
 
                 //mainBeat Timing calculate
                 if (!m_isMainBeat) curBeat.Enqueue(m_lastTickTime +
-                    ((60 / m_inputedSong.BPM) * m_inputedPattern.perBeat[m_curIndex].Item1));
+                    ((60 / m_inputedSong.BPM) * (m_inputedPattern.perBeat[m_curIndex].Item1
+                    / (m_inputedPattern.perBeat[m_curIndex].Item2 / 4))));
             }
             CalculateDelayTime();
             m_beatCount++;
@@ -87,9 +93,19 @@ public class BeatCalculator
         }
     }
 
+    private void BPMUpdate()
+    {
+        if(AudioSettings.dspTime >= m_lastBPMTickTime + (60 / m_inputedSong.BPM))
+        {
+            if(BPMBeat != null) BPMBeat();
+            m_lastBPMTickTime = m_lastBPMTickTime + (60 / m_inputedSong.BPM);
+        }
+    }
+
     private void ManagePlayerInputNote()
     {
-        while((AudioSettings.dspTime - curBeat.Peek()) * 1000 > (Double)Timing.BAD)
+        if (curBeat.Count == 0) return;
+        while((AudioSettings.dspTime - curBeat.Peek()) * 1000 > (Double)Timing.MISS)
         {
             curBeat.Dequeue();
             MissTiming();
@@ -101,6 +117,7 @@ public class BeatCalculator
         UnPlayingUpdate();
         if (!isPlaying) return;
         PlayingUpdate();
+        BPMUpdate();
     }
     private void UnPlayingUpdate()
     {
