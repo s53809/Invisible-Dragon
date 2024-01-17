@@ -1539,7 +1539,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1165061901976641509, guid: 51732628fd047d04389611b18e2edc38, type: 3}
       propertyPath: BGM.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1165061901976641509, guid: 51732628fd047d04389611b18e2edc38, type: 3}
       propertyPath: SFX.Array.size
@@ -1549,6 +1549,10 @@ PrefabInstance:
       propertyPath: BGM.Array.data[0]
       value: 
       objectReference: {fileID: 8300000, guid: a6f71d600d272bd4dab64dee1bed6df1, type: 3}
+    - target: {fileID: 1165061901976641509, guid: 51732628fd047d04389611b18e2edc38, type: 3}
+      propertyPath: BGM.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: adc0bae5fd6436d4b8e7a281e7efdc4d, type: 3}
     - target: {fileID: 1165061901976641509, guid: 51732628fd047d04389611b18e2edc38, type: 3}
       propertyPath: SFX.Array.data[0]
       value: 
