@@ -10,14 +10,8 @@
 
 
 
-public partial class TitleUIView : ViewBase
+public partial class LastScoreView : ViewBase
 {
     
-    public UnityEngine.UI.Button UpButton;
-    
-    public UnityEngine.UI.Text Title;
-    
-    public UnityEngine.UI.Button TutoButton;
-
-    public UnityEngine.UI.Image TutoImage;
+    public UnityEngine.UI.Text ScoreText;
 }

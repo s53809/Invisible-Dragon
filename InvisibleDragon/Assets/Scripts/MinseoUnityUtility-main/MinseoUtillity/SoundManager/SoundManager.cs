@@ -59,4 +59,9 @@ public class SoundManager : MonoSingleton<SoundManager>
         else
             throw new Exception($"ther is no SFX : {name}");
     }
+
+    public void StopCurBGM()
+    {
+        audioSource.Stop();
+    }
 }

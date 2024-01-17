@@ -10,6 +10,7 @@ public class BeatCalculator
     public event BeatEventHandler PreBeat;
     public event BeatEventHandler MainBeat;
     public event BeatEventHandler BPMBeat;
+    public event BeatEventHandler GameEndEvent;
     public event MissTimingHandler MissTiming;
 
     private StagePattern m_inputedPattern;
@@ -75,7 +76,7 @@ public class BeatCalculator
                 //mainBeat Timing calculate
                 if (!m_isMainBeat) curBeat.Enqueue(m_lastTickTime +
                     ((60 / m_inputedSong.BPM) * (m_inputedPattern.perBeat[m_curIndex].Item1
-                    / (m_inputedPattern.perBeat[m_curIndex].Item2 / 4))));
+                    / (Single)(m_inputedPattern.perBeat[m_curIndex].Item2 / 4))));
             }
             CalculateDelayTime();
             m_beatCount++;
@@ -126,6 +127,6 @@ public class BeatCalculator
 
     private void GameEnd()
     {
-
+        GameEndEvent();
     }
 }

@@ -8,9 +8,9 @@ public class StageViewerPresenter : PresenterBase<StageViewerView>
         
     }
 
-    public void Bind(Int32 stageIndex)
+    public void Bind(String text)
     {
         base.Bind();
-        _view.FloorText.DOText($"{stageIndex + 1} Floor",1f);
+        _view.FloorText.DOText(text ,0.1f);
     }
 }
