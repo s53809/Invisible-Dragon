@@ -35,10 +35,11 @@ public class SoundManager : MonoSingleton<SoundManager>
             SFXDic.Add(sfx.name, sfx);
     }
 
-    public void PrintBGM(String name)
+    public void PrintBGM(String name, Boolean isLoop = true)
     {
         if (BGMDic.ContainsKey(name))
         {
+            audioSource.loop = isLoop;
             audioSource.clip = BGMDic[name];
             audioSource.Play();
         }

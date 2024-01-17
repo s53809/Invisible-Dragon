@@ -4,6 +4,8 @@ using UnityEngine;
 using DG.Tweening;
 using System.Collections.Generic;
 
+public delegate void MusicPlayHandler();
+
 public class HallwaySpawner : MonoGameEvent
 {
     public Single elevatorTime = 7f;
@@ -11,6 +13,8 @@ public class HallwaySpawner : MonoGameEvent
     public Single hallwaySpeed = 1f;
     public Single hallwayLastxPosition = -21.5f;
     public Single hallwayFirstxPosition = 30.5f;
+    
+    public event MusicPlayHandler musicPlayHandler;
 
     [SerializeField] private Transform m_elevator;
     [SerializeField] private Sprite[] hallway_sprites;
@@ -30,6 +34,7 @@ public class HallwaySpawner : MonoGameEvent
         StartCoroutine(Shake(cameraShake, elevatorTime));
         transform.DOMoveY(0, elevatorTime).OnComplete(() =>
         {
+            musicPlayHandler();
             m_elevator.DOMoveX(-25, 2).SetEase(Ease.Linear);
             transform.DOMoveX(-6, 2).SetEase(Ease.Linear).OnComplete(() =>
             {

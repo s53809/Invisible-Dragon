@@ -9,9 +9,7 @@ public class BeatCalculator
 {
     public event BeatEventHandler PreBeat;
     public event BeatEventHandler MainBeat;
-
     public event BeatEventHandler BPMBeat;
-
     public event MissTimingHandler MissTiming;
 
     private StagePattern m_inputedPattern;
@@ -48,12 +46,14 @@ public class BeatCalculator
         CalculateDelayTime();
         m_lastTickTime = m_startTime - m_delayTime;
         m_lastBPMTickTime = m_startTime - m_delayTime;
+        SoundManager.Ins.PrintBGM(m_inputedSong.SongName, false);
         isPlaying = true;
+
     }
 
     private void CalculateDelayTime()
     {
-        m_delayTime = (60 / m_inputedSong.BPM) 
+        m_delayTime = (60 / m_inputedSong.BPM)
             / (m_inputedPattern.perBeat[m_curIndex].Item2 / 4);
     }
 
@@ -105,7 +105,7 @@ public class BeatCalculator
     private void ManagePlayerInputNote()
     {
         if (curBeat.Count == 0) return;
-        while((AudioSettings.dspTime - curBeat.Peek()) * 1000 > (Double)Timing.MISS)
+        while(curBeat.Count != 0 && (AudioSettings.dspTime - curBeat.Peek()) * 1000 > (Double)Timing.MISS)
         {
             curBeat.Dequeue();
             MissTiming();

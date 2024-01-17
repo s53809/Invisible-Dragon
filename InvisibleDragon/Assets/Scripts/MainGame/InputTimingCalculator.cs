@@ -13,6 +13,7 @@ public enum Timing
 
 public delegate void TimingEvent();
 public delegate void PlayerInput();
+public delegate void TimingOutput(Double timing);
 public class InputTimingCalculator
 {
     public event TimingEvent PerfectTiming;
@@ -21,13 +22,14 @@ public class InputTimingCalculator
     public event TimingEvent BadTiming;
     public event TimingEvent MissTiming;
     public event PlayerInput PlayerInputFunc;
+    public event TimingOutput PlayerTimingOutput;
 
     private BeatCalculator m_beatCal;
     private Queue<Double> pCurBeat;
 
     public void AutoUpdate()
     {
-        if(pCurBeat.Count != 0 && (Math.Abs(AudioSettings.dspTime - pCurBeat.Peek()) * 1000) <= 40)
+        if(pCurBeat.Count != 0 && (Math.Abs(AudioSettings.dspTime - pCurBeat.Peek()) * 1000) <= 30)
             InputBeat();
     }
 
@@ -47,16 +49,17 @@ public class InputTimingCalculator
         if ((pCurBeat.Peek() - AudioSettings.dspTime) * 1000 > (Double)Timing.MISS) //너무빨리침(무시)
             return;
 
-        Double playerTiming = Math.Abs(AudioSettings.dspTime - pCurBeat.Peek()) * 1000;
+        Double playerTiming = (AudioSettings.dspTime - pCurBeat.Peek()) * 1000;
+        if(PlayerTimingOutput != null) PlayerTimingOutput(playerTiming);
         Debug.Log(playerTiming);
 
-        if (playerTiming <= (Double)Timing.PERFECT)
+        if (Math.Abs(playerTiming) <= (Double)Timing.PERFECT)
         { PerfectTiming(); }
-        else if (playerTiming <= (Double)Timing.GREAT)
+        else if (Math.Abs(playerTiming) <= (Double)Timing.GREAT)
         { GreatTiming(); }
-        else if (playerTiming <= (Double)Timing.GOOD)
+        else if (Math.Abs(playerTiming) <= (Double)Timing.GOOD)
         { GoodTiming(); }
-        else if (playerTiming <= (Double)Timing.BAD)
+        else if (Math.Abs(playerTiming) <= (Double)Timing.BAD)
         { BadTiming(); }
         else
         { MissTiming(); }

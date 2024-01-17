@@ -5,6 +5,12 @@ using UnityEngine;
 
 public class PatternFileParser
 {
+    private static readonly String[] m_stageFileNameInfo = new String[4] {
+        "FirstStage",
+        "SecondStage",
+        "ThirdStage",
+        "ForthStage"
+    };
     public StagePattern FindPatternFile(String fileName)
     {
         String filePath = Path.Combine(Application.streamingAssetsPath, $"Patterns/{fileName}.txt");
@@ -38,5 +44,38 @@ public class PatternFileParser
         };
 
         return pattern;
+    }
+
+    public StagePattern FindPatternFile(Int32 index)
+    {
+        return FindPatternFile(m_stageFileNameInfo[index]);
+    }
+
+    public SongInfo FindSongInfoFile(String fileName)
+    {
+        String filePath = Path.Combine(Application.streamingAssetsPath, $"Songs/{fileName}.txt");
+
+        String[] lines = File.ReadAllLines(filePath);
+
+        String SongName = lines[0];
+        Single BPM = Single.Parse(lines[1]);
+        Double offset = Double.Parse(lines[2]);
+
+        var perBeats = new List<Tuple<Int32, Int32>>();
+        var touchBeats = new List<String>();
+
+        SongInfo songInfo = new SongInfo()
+        {
+            SongName = SongName,
+            BPM = BPM,
+            offset = offset
+        };
+
+        return songInfo;
+    }
+
+    public SongInfo FindSongInfoFile(Int32 index)
+    {
+        return FindSongInfoFile(m_stageFileNameInfo[index]);
     }
 }

@@ -2,7 +2,7 @@
 
 public class SongInfo
 {
-    public String fileName;
+    public String SongName;
     public Single BPM;
     public Double offset;
 }
